@@ -37,23 +37,30 @@ const aqiService = {
       const response = await axios.get("https://api.waqi.info/map/bounds/", {
         params: {
           token: API_TOKEN,
-          latlng: "28.40,76.85,28.90,77.40", // ✅ Delhi bounding box
+          latlng: "28.40,76.85,28.90,77.40",
         },
       });
-
-      console.log("Worst AQI Areas Response:", response.data); // ✅ Debug response
-
+  
+      console.log("Worst AQI Areas Response:", response.data);
+  
       if (response.data.status !== "ok") {
         console.error("Error in worst AQI API response:", response.data);
         return [];
       }
-
-      return response.data.data.sort((a, b) => b.aqi - a.aqi).slice(0, 5);
+  
+      return response.data.data
+        .map(area => ({
+          name: area.station?.name || "Unknown Location", // ✅ Extracts the name
+          aqi: area.aqi
+        }))
+        .sort((a, b) => b.aqi - a.aqi)
+        .slice(0, 5);
     } catch (error) {
       console.error("Error fetching worst AQI areas:", error);
       return [];
     }
   },
+  
 };
 
 export default aqiService;
