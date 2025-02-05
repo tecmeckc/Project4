@@ -1,0 +1,13 @@
+/* src/components/Dashboard/Dashboard.css */
+.dashboard {
+  text-align: center;
+}
+
+.dashboard ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+.dashboard li {
+  margin: 5px 0;
+}
